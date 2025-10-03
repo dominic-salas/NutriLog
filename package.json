@@ -1,0 +1,45 @@
+{
+  "name": "caloriescan",
+  "version": "1.0.0",
+  "description": "AI-powered food image recognition app for automatic calorie and nutrition tracking",
+  "main": "index.js",
+  "scripts": {
+    "android": "react-native run-android",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "food",
+    "nutrition",
+    "calories",
+    "ai",
+    "image-recognition",
+    "health",
+    "android"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-native": "^0.81.4",
+    "react-native-image-picker": "^7.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.7",
+    "@babel/plugin-transform-flow-strip-types": "^7.27.1",
+    "@babel/preset-env": "^7.23.8",
+    "@babel/runtime": "^7.23.8",
+    "@react-native/babel-preset": "^0.73.19",
+    "@react-native/eslint-config": "^0.81.1",
+    "@react-native/metro-config": "^0.73.3",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "^13.3.3",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "metro-react-native-babel-preset": "^0.77.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
