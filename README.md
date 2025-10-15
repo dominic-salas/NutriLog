@@ -1,17 +1,11 @@
-## Getting Started
+# NutriLog
 
-First, run the development server:
+NutriLog is a modern nutrition tracking web app. It allows users to snap a photo of their meals and instantly get calorie, macro, and nutritional data.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Techstack
+- Auth/Database: [Supabase](https://supabase.com/)
+- Frontend/Backend: [Nextjs](https://nextjs.org/) 
+- Deployment: [Vercel](https://vercel.com/)
+- UI Components: [Shadcn](https://ui.shadcn.com/docs)
