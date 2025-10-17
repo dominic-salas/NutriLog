@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Form from "next/form";
+import { useSearchParams } from "next/navigation";
 import { Utensils } from "lucide-react";
 import { cn } from "@/lib/utils/utils";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,9 @@ export function LoginForm({
   ...props
 }: React.ComponentPropsWithoutRef<"form">) 
 {
+  const searchParams = useSearchParams();
+  const error = searchParams.get('error');
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
       {/* background pic */}
@@ -53,6 +57,12 @@ export function LoginForm({
                 Enter your email below to login to your account
               </p>
             </div>
+
+            {error && (
+              <div className="rounded-md bg-red-50 p-3 text-sm text-red-600">
+                {error}
+              </div>
+            )}
 
             <div className="grid gap-6">
               <div className="grid gap-2">

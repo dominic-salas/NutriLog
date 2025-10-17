@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-export async function updateSession(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
 	let supabaseResponse = NextResponse.next({
 		request,
 	});
@@ -11,22 +11,14 @@ export async function updateSession(request: NextRequest) {
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 		{
 			cookies: {
-				getAll() {
-					return request.cookies.getAll();
+				get(name: string) {
+					return request.cookies.get(name)?.value;
 				},
-				//eslint-disable-next-line @typescript-eslint/no-explicit-any
-				setAll(cookiesToSet: any) {
-					//eslint-disable-next-line @typescript-eslint/no-explicit-any
-					cookiesToSet.forEach(({ name, value }: any) =>
-						request.cookies.set(name, value)
-					);
-					supabaseResponse = NextResponse.next({
-						request,
-					});
-					//eslint-disable-next-line @typescript-eslint/no-explicit-any
-					cookiesToSet.forEach(({ name, value, options }: any) =>
-						supabaseResponse.cookies.set(name, value, options)
-					);
+				set(name: string, value: string, options) {
+					supabaseResponse.cookies.set(name, value, options);
+				},
+				remove(name: string, options) {
+					supabaseResponse.cookies.set(name, '', options);
 				},
 			},
 		}
