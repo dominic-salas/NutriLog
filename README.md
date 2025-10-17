@@ -1,6 +1,6 @@
 # NutriLog
 
-NutriLog is a modern nutrition tracking web app. It allows users to snap a photo of their meals and instantly get calorie, macro, and nutritional data.
+NutriLog is a modern nutrition tracking web app. It allows users to snap a photo of their meals and instantly get calories, macros, and nutritional data.
 
 ---
 
