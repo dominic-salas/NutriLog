@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
@@ -17,11 +17,13 @@ export default function MealHistory({ userId }: { userId: string }) {
     const [entries, setEntries] = useState<MealEntry[]>([]);
     const supabase = createClient();
 
-    useEffect(() => {
-        fetchEntries();
-    }, []);
+    // fetchEntries wrapped in useCallback to satisfy react-hooks/exhaustive-deps
+    const fetchEntries = useCallback(async () => {
+        if (!userId) {
+            setEntries([]);
+            return;
+        }
 
-    const fetchEntries = async () => {
         const { data, error } = await supabase
             .from('meal_entries')
             .select('*')
@@ -31,10 +33,15 @@ export default function MealHistory({ userId }: { userId: string }) {
 
         if (error) {
             console.error('Error fetching meal entries:', error);
+            setEntries([]);
         } else {
-            setEntries(data || []);
+            setEntries((data as MealEntry[]) || []);
         }
-    };
+    }, [supabase, userId]);
+
+    useEffect(() => {
+        fetchEntries();
+    }, [fetchEntries]);
 
     const deleteEntry = async (id: string) => {
         const { error } = await supabase

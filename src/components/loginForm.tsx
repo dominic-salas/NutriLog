@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Form from "next/form";
@@ -11,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { login, signInWithGoogle } from "@/lib/utils/auth-actions";
 
-export function LoginForm({
+function LoginFormContent({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) 
@@ -33,7 +34,7 @@ export function LoginForm({
 
       <div className="relative flex min-h-screen items-center justify-center px-4">
         <div className="w-full max-w-lg rounded-3xl bg-white/80 p-10 shadow-2xl backdrop-blur-md">
-          {/* hader */}
+          {/* header */}
           <div className="mb-6 flex items-center justify-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <Utensils className="h-4 w-4" />
@@ -147,5 +148,35 @@ export function LoginForm({
         </div>
       </div>
     </div>
+  );
+}
+
+export function LoginForm({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"form">) 
+{
+  return (
+    <Suspense fallback={
+      <div className="relative min-h-screen w-full overflow-hidden">
+        <Image
+          src="/food.jpg"
+          alt="Food background"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/55" />
+        <div className="relative flex min-h-screen items-center justify-center px-4">
+          <div className="w-full max-w-lg rounded-3xl bg-white/80 p-10 shadow-2xl backdrop-blur-md">
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }>
+      <LoginFormContent className={className} {...props} />
+    </Suspense>
   );
 }

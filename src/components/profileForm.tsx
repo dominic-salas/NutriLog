@@ -81,8 +81,8 @@ export default function ProfileForm({ profile }: { profile: Profile }) {
                 setModalSuccess(false);
                 setModalData({ currentPassword: '', newPassword: '', confirmPassword: '' });
             }, 3000);
-        } catch (err: any) {
-            setModalError(err.message);
+        } catch (err: unknown) {
+            setModalError((err as Error).message);
         } finally {
             setModalLoading(false);
         }
