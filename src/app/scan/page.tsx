@@ -38,12 +38,16 @@ export default function ScanPage()
         };
 
         vid.addEventListener("loadedmetadata", onLoaded, { once: true });
-      } catch (e: any) {
-        setError(
-          e?.message ??
-            "Camera permission denied or unavailable."
-        );
-      }
+        } catch (e: unknown) 
+        {
+        const message =
+            e instanceof Error
+            ? e.message
+            : typeof e === "string"
+            ? e
+            : "Camera permission denied or unavailable.";
+        setError(message);
+        }
     }
 
     start();
