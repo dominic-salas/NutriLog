@@ -126,7 +126,7 @@ export default function ScanPage() {
                             min="0"
                             max="100"
                             value={healthScore}
-                            onChange={(e) => setHealthScore(parseInt(e.target.value, 10))}
+                            onChange={(e) => setHealthScore(Number(e.target.value) || 0)}
                             className="w-full"
                         />
 
