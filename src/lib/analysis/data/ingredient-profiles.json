@@ -1,0 +1,147 @@
+[
+  {
+    "name": "Grilled Steak",
+    "keywords": ["grilled steak", "sirloin", "beef steak", "grilled beef"],
+    "macros": { "calories": 250, "carbs": 0, "protein": 32, "fats": 12 },
+    "healthScore": 55
+  },
+  {
+    "name": "Grilled Salmon",
+    "keywords": ["salmon fillet", "grilled salmon", "baked salmon"],
+    "macros": { "calories": 210, "carbs": 0, "protein": 26, "fats": 12 },
+    "healthScore": 80
+  },
+  {
+    "name": "Pork Tenderloin",
+    "keywords": ["pork tenderloin", "pork loin"],
+    "macros": { "calories": 200, "carbs": 0, "protein": 28, "fats": 9 },
+    "healthScore": 62
+  },
+  {
+    "name": "Leafy Greens",
+    "keywords": ["leafy greens", "mixed greens", "salad greens", "lettuce"],
+    "macros": { "calories": 25, "carbs": 5, "protein": 2, "fats": 0 },
+    "healthScore": 90
+  },
+  {
+    "name": "Roasted Vegetables",
+    "keywords": [
+      "roasted vegetables",
+      "roasted vegetable",
+      "grilled vegetables",
+      "grilled vegetable",
+      "roasted broccoli",
+      "roasted cauliflower"
+    ],
+    "macros": { "calories": 80, "carbs": 12, "protein": 3, "fats": 3 },
+    "healthScore": 78
+  },
+  {
+    "name": "Zucchini",
+    "keywords": ["zucchini", "courgette"],
+    "macros": { "calories": 20, "carbs": 4, "protein": 1, "fats": 0 },
+    "healthScore": 85
+  },
+  {
+    "name": "Bell Pepper",
+    "keywords": ["bell pepper", "capsicum", "pepper"],
+    "macros": { "calories": 30, "carbs": 7, "protein": 1, "fats": 0 },
+    "healthScore": 82
+  },
+  {
+    "name": "Rotini Pasta",
+    "keywords": ["rotini", "pasta spiral", "fusilli", "pasta salad"],
+    "macros": { "calories": 210, "carbs": 42, "protein": 7, "fats": 2 },
+    "healthScore": 52
+  },
+  {
+    "name": "Cured Meat",
+    "keywords": ["salami", "diced ham", "cured meat"],
+    "macros": { "calories": 150, "carbs": 1, "protein": 8, "fats": 12 },
+    "healthScore": 40
+  },
+  {
+    "name": "Olives",
+    "keywords": ["olive", "black olive", "kalamata"],
+    "macros": { "calories": 50, "carbs": 3, "protein": 0, "fats": 5 },
+    "healthScore": 60
+  },
+  {
+    "name": "Mozzarella",
+    "keywords": ["mozzarella", "cheese cube", "cheese curd"],
+    "macros": { "calories": 85, "carbs": 1, "protein": 6, "fats": 6 },
+    "healthScore": 55
+  },
+  {
+    "name": "Quinoa",
+    "keywords": ["quinoa"],
+    "macros": { "calories": 120, "carbs": 21, "protein": 4, "fats": 2 },
+    "healthScore": 76
+  },
+  {
+    "name": "Snap Peas",
+    "keywords": ["snap pea", "sugar snap pea"],
+    "macros": { "calories": 35, "carbs": 6, "protein": 2, "fats": 0 },
+    "healthScore": 88
+  },
+  {
+    "name": "Feta Cheese",
+    "keywords": ["feta", "crumbled feta"],
+    "macros": { "calories": 70, "carbs": 1, "protein": 4, "fats": 6 },
+    "healthScore": 58
+  },
+  {
+    "name": "Tomato",
+    "keywords": ["tomato", "cherry tomato"],
+    "macros": { "calories": 25, "carbs": 5, "protein": 1, "fats": 0 },
+    "healthScore": 80
+  },
+  {
+    "name": "Sweet Potato",
+    "keywords": ["sweet potato", "roasted sweet potato"],
+    "macros": { "calories": 115, "carbs": 27, "protein": 2, "fats": 0 },
+    "healthScore": 74
+  },
+  {
+    "name": "Kale",
+    "keywords": ["kale"],
+    "macros": { "calories": 35, "carbs": 7, "protein": 2, "fats": 1 },
+    "healthScore": 88
+  },
+  {
+    "name": "Apple Pear Salsa",
+    "keywords": ["apple pear salsa", "apple topping", "pear topping", "fruit topping"],
+    "macros": { "calories": 60, "carbs": 15, "protein": 0, "fats": 0 },
+    "healthScore": 72
+  },
+  {
+    "name": "Watermelon",
+    "keywords": ["watermelon"],
+    "macros": { "calories": 45, "carbs": 11, "protein": 1, "fats": 0 },
+    "healthScore": 92
+  },
+  {
+    "name": "Pineapple",
+    "keywords": ["pineapple"],
+    "macros": { "calories": 50, "carbs": 13, "protein": 1, "fats": 0 },
+    "healthScore": 88
+  },
+  {
+    "name": "Berries",
+    "keywords": ["berry", "berries", "strawberry", "strawberries", "blueberry", "blueberries"],
+    "macros": { "calories": 40, "carbs": 9, "protein": 1, "fats": 0 },
+    "healthScore": 95
+  },
+  {
+    "name": "Grapes",
+    "keywords": ["grape"],
+    "macros": { "calories": 55, "carbs": 14, "protein": 1, "fats": 0 },
+    "healthScore": 85
+  },
+  {
+    "name": "Mixed Meal",
+    "keywords": [],
+    "macros": { "calories": 450, "carbs": 45, "protein": 25, "fats": 18 },
+    "healthScore": 65
+  }
+]

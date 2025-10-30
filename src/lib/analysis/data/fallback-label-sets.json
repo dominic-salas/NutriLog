@@ -1,0 +1,41 @@
+[
+  [
+    { "name": "Grilled Steak", "confidence": 93.2 },
+    { "name": "Zucchini", "confidence": 81.6 },
+    { "name": "Leafy Greens", "confidence": 74.9 },
+    { "name": "Bell Pepper", "confidence": 70.5 }
+  ],
+  [
+    { "name": "Rotini Pasta", "confidence": 91.4 },
+    { "name": "Cured Meat", "confidence": 86.7 },
+    { "name": "Bell Pepper", "confidence": 78.2 },
+    { "name": "Olives", "confidence": 73.9 },
+    { "name": "Mozzarella", "confidence": 69.4 }
+  ],
+  [
+    { "name": "Grilled Salmon", "confidence": 94.3 },
+    { "name": "Roasted Vegetables", "confidence": 83.8 },
+    { "name": "Leafy Greens", "confidence": 77.1 },
+    { "name": "Tomato", "confidence": 71.2 }
+  ],
+  [
+    { "name": "Grilled Salmon", "confidence": 92.7 },
+    { "name": "Quinoa", "confidence": 84.6 },
+    { "name": "Snap Peas", "confidence": 70.4 },
+    { "name": "Feta Cheese", "confidence": 68.9 },
+    { "name": "Tomato", "confidence": 67.5 },
+    { "name": "Olives", "confidence": 65.1 }
+  ],
+  [
+    { "name": "Pork Tenderloin", "confidence": 90.8 },
+    { "name": "Sweet Potato", "confidence": 82.9 },
+    { "name": "Kale", "confidence": 73.6 },
+    { "name": "Apple Pear Salsa", "confidence": 69.8 }
+  ],
+  [
+    { "name": "Watermelon", "confidence": 93.9 },
+    { "name": "Pineapple", "confidence": 88.1 },
+    { "name": "Grapes", "confidence": 82.5 },
+    { "name": "Berries", "confidence": 78.4 }
+  ]
+]

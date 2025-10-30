@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Camera, Upload } from "lucide-react";
+import { ConfirmImageModal } from "@/components/ConfirmImageModal";
+import { ErrorBanner } from "@/components/ui/ErrorBanner";
 
 export default function ScanPage() 
 {
@@ -14,6 +16,10 @@ export default function ScanPage()
   const [isFlashing, setIsFlashing] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [processingError, setProcessingError] = useState<string | null>(null);
 
   useEffect(() => {
     let stream: MediaStream | null = null;
@@ -80,8 +86,9 @@ export default function ScanPage()
     //flash effect
     setIsFlashing(true);
     setTimeout(() => setIsFlashing(false), 120);
-    sessionStorage.setItem("scan:lastImage", dataUrl);
-    router.push("/result");
+    setCapturedImage(dataUrl);
+    setConfirmOpen(true);
+    setBusy(false);
   };
 
   //upload from phone
@@ -91,19 +98,24 @@ export default function ScanPage()
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith("image/")) 
-      {
-      setError("Please select an image file.");
+    if (!file.type || !["image/jpeg", "image/png"].includes(file.type)) {
+      setError("Please choose a JPEG or PNG image.");
+      return;
+    }
+
+    const maxBytes = 15 * 1024 * 1024; // 15MB Rekognition limit
+    if (file.size > maxBytes) {
+      setError("Image is too large. Please select a file under 15MB.");
       return;
     }
 
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result;
-      if (typeof result === "string") 
-        {
-        sessionStorage.setItem("scan:lastImage", result);
-        router.push("/result");
+      if (typeof result === "string") {
+        setCapturedImage(result);
+        setConfirmOpen(true);
+        setError(null);
       } else {
         setError("Unable to read the selected image.");
       }
@@ -111,6 +123,41 @@ export default function ScanPage()
     reader.onerror = () => setError("Failed to load the selected image.");
     reader.readAsDataURL(file);
   };
+
+  const resetCapture = useCallback(() => {
+    setConfirmOpen(false);
+    setCapturedImage(null);
+    setProcessingError(null);
+  }, []);
+
+  const handleConfirm = useCallback(async () => {
+    if (!capturedImage) return;
+    setAnalyzing(true);
+    setProcessingError(null);
+
+    try {
+      const response = await fetch("/api/scan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageData: capturedImage }),
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload.error ?? "Failed to analyze meal.");
+      }
+
+      const result = await response.json();
+      resetCapture();
+      router.push(`/scan/result/${result.analysisId}`);
+    } catch (err: unknown) {
+      setProcessingError(err instanceof Error ? err.message : "Unable to analyze meal. Try again.");
+    } finally {
+      setAnalyzing(false);
+    }
+  }, [capturedImage, resetCapture, router]);
+
+  const activeError = error ?? processingError;
 
   return (
     <div className="relative min-h-svh w-full overflow-hidden bg-black text-white">
@@ -193,11 +240,19 @@ export default function ScanPage()
       <canvas ref={canvasRef} className="hidden" />
 
       {/* errors */}
-      {error && (
-        <div className="absolute bottom-28 left-1/2 z-30 w-[90%] max-w-xl -translate-x-1/2 rounded-xl bg-red-600/90 px-4 py-2 text-sm">
-          {error}
+      {activeError && (
+        <div className="absolute bottom-28 left-1/2 z-30 w-[90%] max-w-xl -translate-x-1/2">
+          <ErrorBanner message={activeError} className="w-full" />
         </div>
       )}
+
+      <ConfirmImageModal
+        open={confirmOpen}
+        imageSrc={capturedImage}
+        onCancel={resetCapture}
+        onConfirm={handleConfirm}
+        isSubmitting={analyzing}
+      />
     </div>
   );
 }
