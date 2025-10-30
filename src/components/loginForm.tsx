@@ -60,7 +60,7 @@ function LoginFormContent({
             <div className="flex flex-col items-center gap-1.5 text-center">
               <h1 className="text-2xl font-bold">Login</h1>
               <p className="text-sm text-white/70">
-                Welcome back — please sign in to your account.
+                Welcome back... please sign in to your account.
               </p>
             </div>
 
