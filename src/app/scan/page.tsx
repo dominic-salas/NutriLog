@@ -3,13 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Camera } from "lucide-react";
+import { ArrowLeft, Camera, Upload } from "lucide-react";
 
 export default function ScanPage() 
 {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isFlashing, setIsFlashing] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,16 +39,16 @@ export default function ScanPage()
         };
 
         vid.addEventListener("loadedmetadata", onLoaded, { once: true });
-        } catch (e: unknown) 
-        {
+      } catch (e: unknown) 
+      {
         const message =
-            e instanceof Error
+          e instanceof Error
             ? e.message
             : typeof e === "string"
             ? e
             : "Camera permission denied or unavailable.";
         setError(message);
-        }
+      }
     }
 
     start();
@@ -81,6 +82,34 @@ export default function ScanPage()
     setTimeout(() => setIsFlashing(false), 120);
     sessionStorage.setItem("scan:lastImage", dataUrl);
     router.push("/result");
+  };
+
+  //upload from phone
+  const onPickFile = () => fileInputRef.current?.click();
+
+  const onFileChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) 
+      {
+      setError("Please select an image file.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result;
+      if (typeof result === "string") 
+        {
+        sessionStorage.setItem("scan:lastImage", result);
+        router.push("/result");
+      } else {
+        setError("Unable to read the selected image.");
+      }
+    };
+    reader.onerror = () => setError("Failed to load the selected image.");
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -125,11 +154,12 @@ export default function ScanPage()
 
       {/* text */}
       <div className="absolute top-20 left-0 right-0 z-10 mx-auto w-full max-w-[420px] px-6 text-center">
-        <p className="text-sm text-white/90">Center your meal, then take a picture!</p>
+        <p className="text-sm text-white/90">Center your meal, then take a picture or upload one.</p>
       </div>
 
-      {/* scan btn */}
-      <div className="absolute bottom-8 left-0 right-0 z-20 flex items-center justify-center">
+      {/* actions */}
+      <div className="absolute bottom-8 left-0 right-0 z-20 flex flex-col items-center gap-4">
+        {/* scan btn */}
         <button
           onClick={handleScan}
           disabled={busy}
@@ -138,6 +168,26 @@ export default function ScanPage()
         >
           <Camera className="h-7 w-7" />
         </button>
+
+        {/* upload btn */}
+        <button
+          onClick={onPickFile}
+          className="rounded-xl border border-white/25 bg-white/10 px-4 py-2 text-white backdrop-blur-2xl hover:bg-white/20"
+          aria-label="Upload photo"
+        >
+          <span className="inline-flex items-center gap-2">
+            <Upload className="h-4 w-4" />
+            Upload Photo
+          </span>
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          className="hidden"
+          onChange={onFileChange}
+        />
       </div>
 
       <canvas ref={canvasRef} className="hidden" />
