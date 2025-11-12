@@ -1,0 +1,75 @@
+[
+  {
+    "entry": {
+      "id": "meal-entry-1",
+      "date": "2025-02-10",
+      "time": "18:45:00",
+      "health_score": 86,
+      "description": "Uploaded food test",
+      "analysis_id": "analysis-123",
+      "image_url": "/tests/foodtest.jpg"
+    },
+    "analysis": {
+      "id": "analysis-123",
+      "image_url": "/tests/foodtest.jpg",
+      "detected_labels": [
+        {
+          "name": "Rotini Pasta",
+          "confidence": 84.9,
+          "macros": {
+            "calories": 210,
+            "carbs": 42,
+            "protein": 7,
+            "fats": 2
+          }
+        },
+        {
+          "name": "Bell Pepper",
+          "confidence": 73.4,
+          "macros": {
+            "calories": 30,
+            "carbs": 7,
+            "protein": 1,
+            "fats": 0
+          }
+        },
+        {
+          "name": "Olives",
+          "confidence": 65.3,
+          "macros": {
+            "calories": 50,
+            "carbs": 3,
+            "protein": 0,
+            "fats": 5
+          }
+        },
+        {
+          "name": "Mozzarella",
+          "confidence": 65.8,
+          "macros": {
+            "calories": 85,
+            "carbs": 1,
+            "protein": 6,
+            "fats": 6
+          }
+        },
+        {
+          "name": "Cured Meat",
+          "confidence": 77,
+          "macros": {
+            "calories": 150,
+            "carbs": 1,
+            "protein": 8,
+            "fats": 12
+          }
+        }
+      ],
+      "macros": [
+        525,
+        54,
+        21,
+        25
+      ]
+    }
+  }
+]
