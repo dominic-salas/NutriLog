@@ -74,12 +74,11 @@ export default async function ProfilePage() {
       />
       <div className="absolute inset-0 bg-black/55" />
 
-      <div className="fixed left-4 top-4 z-50">
-        <SupportButton userId={user.id} />
-      </div>
-
       <header className="relative z-20">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-end px-4 py-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+          <div className="flex items-center">
+            <SupportButton userId={user.id} />
+          </div>
           <LogoutButton />
         </div>
       </header>
