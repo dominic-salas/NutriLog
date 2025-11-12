@@ -2,7 +2,7 @@ name: Build Workflow
 # Trigger this workflow on PRs
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, reopened, edited, ready_for_review, review_requested]
 
 jobs:
   deploy:
@@ -16,6 +16,6 @@ jobs:
 
       - name: Build Next.js app
         run: npm run build
-        
+
       - name: Run tests
         run: npm run test
