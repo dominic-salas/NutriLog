@@ -5,6 +5,7 @@ import MealHistory from '@/components/mealHistory';
 import ScanMeal from '@/components/scanMeal';
 import Image from 'next/image';
 import { LogoutButton } from '@/components/logoutButton';
+import { SupportButton } from '@/components/supportButton';
 
 type FormProfile = { id: string; first_name: string; last_name: string; email: string }
 
@@ -73,7 +74,11 @@ export default async function ProfilePage() {
       />
       <div className="absolute inset-0 bg-black/55" />
 
-      <header className="relative z-10">
+      <div className="fixed left-4 top-4 z-50">
+        <SupportButton userId={user.id} />
+      </div>
+
+      <header className="relative z-20">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-end px-4 py-4 sm:px-6 lg:px-8">
           <LogoutButton />
         </div>
