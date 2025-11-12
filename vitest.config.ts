@@ -1,6 +1,38 @@
 import { defineConfig } from "vitest/config";
 import tsconfigPaths from "vite-tsconfig-paths";
 import path from "path";
+import type { TestSpecification } from "vitest/node";
+import { BaseSequencer } from "vitest/node";
+
+class PrioritizedSequencer extends BaseSequencer {
+  async sort(files: TestSpecification[]) {
+    const priority = ["scanFlow", "mealHistory"];
+    const getString = (value: unknown) => (typeof value === "string" ? value : undefined);
+    const safePath = (file: TestSpecification) => {
+      const record = file as unknown as Record<string, unknown>;
+      const nestedFile = record.file as Record<string, unknown> | undefined;
+      return (
+        getString(record.filepath) ??
+        getString(nestedFile?.filepath) ??
+        getString(nestedFile?.name) ??
+        getString(record.moduleId) ??
+        getString(record.projectName) ??
+        ""
+      );
+    };
+    const rank = (filepath: string) => {
+      const idx = priority.findIndex((token) => filepath.includes(token));
+      return idx === -1 ? priority.length : idx;
+    };
+
+    return files.sort((a, b) => {
+      const aPath = safePath(a);
+      const bPath = safePath(b);
+      const diff = rank(aPath) - rank(bPath);
+      return diff === 0 ? aPath.localeCompare(bPath) : diff;
+    });
+  }
+}
 
 export default defineConfig({
   plugins: [tsconfigPaths()],
@@ -21,16 +53,7 @@ export default defineConfig({
       concurrent: false,
       shuffle: false,
       hooks: "stack",
-      files: (files) =>
-        files.sort((a, b) => {
-          const priority = ["scanFlow", "mealHistory"];
-          const rank = (file: string) => {
-            const idx = priority.findIndex((token) => file.includes(token));
-            return idx === -1 ? priority.length : idx;
-          };
-          const diff = rank(a) - rank(b);
-          return diff === 0 ? a.localeCompare(b) : diff;
-        }),
+      sequencer: PrioritizedSequencer,
     },
     coverage: {
       provider: "v8",
