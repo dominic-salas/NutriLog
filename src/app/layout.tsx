@@ -15,13 +15,20 @@ export default function RootLayout({
 }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      {/* For extra safety you can also pre-render these two so client & server match:
-          className="js-focus-visible" data-js-focus-visible=""
-          but suppressHydrationWarning is usually enough. */}
       <head>
+        <link rel="manifest" href="/manifest.json" />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="NutriLog" />
+        <link rel="apple-touch-icon" href="/logo.jpg" />
         <link rel="icon" href="/logo.jpg" type="image/jpeg" />
-        {/* (Optional) Better results if you also provide a 32x32 PNG: 
-            <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" /> */}
+
+        <meta name="format-detection" content="telephone=no" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+        />
       </head>
       <body className="min-h-screen bg-background text-foreground">
         {children}
