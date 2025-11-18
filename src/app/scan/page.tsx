@@ -82,7 +82,6 @@ export default function ScanPage()
         dataUrl = c.toDataURL("image/jpeg", 0.85);
       }
     }
-
     //flash effect
     setIsFlashing(true);
     setTimeout(() => setIsFlashing(false), 120);
@@ -90,7 +89,6 @@ export default function ScanPage()
     setConfirmOpen(true);
     setBusy(false);
   };
-
   //upload from phone
   const onPickFile = () => fileInputRef.current?.click();
 
@@ -151,7 +149,9 @@ export default function ScanPage()
       resetCapture();
       router.push(`/scan/result/${result.analysisId}`);
     } catch (err: unknown) {
-      setProcessingError(err instanceof Error ? err.message : "Unable to analyze meal. Try again.");
+      setProcessingError(
+        err instanceof Error ? err.message : "Unable to analyze meal. Try again."
+      );
     } finally {
       setAnalyzing(false);
     }
@@ -171,7 +171,6 @@ export default function ScanPage()
           <ArrowLeft className="h-5 w-5" />
         </Link>
       </div>
-
       {/* vid preview */}
       <video
         ref={videoRef}
@@ -179,16 +178,13 @@ export default function ScanPage()
         muted
         className="absolute inset-0 h-full w-full object-cover"
       />
-
       {/* flash */}
       {isFlashing && (
         <div className="pointer-events-none absolute inset-0 z-10 bg-white/70 animate-pulse" />
       )}
-
       {/* gradients */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/60 to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/70 to-transparent" />
-
       {/* scan frame */}
       <div className="pointer-events-none absolute inset-0 z-10 grid place-items-center">
         <div className="relative h-[60vh] w-[85vw] max-w-[420px] rounded-3xl">
@@ -198,12 +194,12 @@ export default function ScanPage()
           <span className="absolute bottom-0 right-0 h-10 w-10 rounded-br-3xl border-b-4 border-r-4 border-white" />
         </div>
       </div>
-
       {/* text */}
       <div className="absolute top-20 left-0 right-0 z-10 mx-auto w-full max-w-[420px] px-6 text-center">
-        <p className="text-sm text-white/90">Center your meal, then take a picture or upload one.</p>
+        <p className="text-sm text-white/90">
+          Center your meal, then take a picture or upload one.
+        </p>
       </div>
-
       {/* actions */}
       <div className="absolute bottom-8 left-0 right-0 z-20 flex flex-col items-center gap-4">
         {/* scan btn */}
@@ -215,7 +211,6 @@ export default function ScanPage()
         >
           <Camera className="h-7 w-7" />
         </button>
-
         {/* upload btn */}
         <button
           onClick={onPickFile}
@@ -231,14 +226,12 @@ export default function ScanPage()
           ref={fileInputRef}
           type="file"
           accept="image/*"
-          capture="environment"
           className="hidden"
           onChange={onFileChange}
         />
       </div>
 
       <canvas ref={canvasRef} className="hidden" />
-
       {/* errors */}
       {activeError && (
         <div className="absolute bottom-28 left-1/2 z-30 w-[90%] max-w-xl -translate-x-1/2">
