@@ -5,7 +5,6 @@ import { getMockRouter, setMockSearchParams } from "../utils/navigation";
 
 const authActions = vi.hoisted(() => ({
   login: vi.fn(),
-  signInWithGoogle: vi.fn(),
 }));
 
 vi.mock("@/lib/utils/auth-actions", () => authActions);
