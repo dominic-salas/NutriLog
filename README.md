@@ -55,19 +55,19 @@ Use any modern browser and go to [nutrilogging.netlify.app](https://nutrilogging
 - NEXT_PUBLIC_SUPABASE_ANON_KEY
 - SUPABASE_SERVICE_ROLE_KEY
 
-### AWS IAM Console – User Security Credentials (us-east-2)
+### AWS IAM Console - User Security Credentials (us-east-2)
 
 [Open AWS IAM security credentials](https://us-east-2.console.aws.amazon.com/iam/home#/security_credentials)
 
-- AWS_ACCESS_KEY_ID
-- AWS_SECRET_ACCESS_KEY
+- MY_AWS_ACCESS_KEY_ID
+- MY_AWS_SECRET_ACCESS_KEY
 
-### AWS Rekognition Console – Custom Labels Models (us-east-2)
+### AWS Rekognition Console - Custom Labels Models (us-east-2)
 
 [Open AWS Rekognition Custom Labels](https://us-east-2.console.aws.amazon.com/rekognition/home?region=us-east-2#custom-labels-models)
 
-- AWS_REGION
-- AWS_REKOGNITION_CUSTOM_MODEL_ARN
+- MY_AWS_REGION
+- MY_AWS_REKOGNITION_CUSTOM_MODEL_ARN
 
 ---
 

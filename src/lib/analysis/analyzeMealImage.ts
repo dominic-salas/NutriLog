@@ -39,8 +39,8 @@ type IngredientProfile = {
   healthScore: number;
 };
 
-const FALLBACK_LABEL_SETS = fallbackLabelSets as DetectedLabel[][];
-const INGREDIENT_PROFILES = (ingredientProfilesData as IngredientProfile[]) ?? [];
+const FALLBACK_LABEL_SETS = fallbackLabelSets as DetectedLabel[][]; // mocked label groups for when Rekognition fails
+const INGREDIENT_PROFILES = (ingredientProfilesData as IngredientProfile[]) ?? []; // curated macro profiles keyed by keywords
 const DEFAULT_PROFILE =
   INGREDIENT_PROFILES.find((profile) => profile.name === "Mixed Meal") ?? {
     name: "Mixed Meal",
@@ -48,22 +48,25 @@ const DEFAULT_PROFILE =
     macros: { calories: 450, carbs: 45, protein: 25, fats: 18 },
     healthScore: 65,
   };
-const MATCHABLE_PROFILES = INGREDIENT_PROFILES.filter((profile) => profile.keywords.length > 0);
+const MATCHABLE_PROFILES = INGREDIENT_PROFILES.filter((profile) => profile.keywords.length > 0); // only profiles with keywords can be matched
 
+// standardizes Rekognition output so comparisons behave
 function normalizeLabelName(label: string): string {
   return label.toLowerCase().replace(/[^a-z]+/g, " ").trim();
 }
 
 const LABEL_BLACKLIST = new Set(
   (labelBlacklist as string[]).map((label) => normalizeLabelName(label)),
-);
+); // Rekognition often returns super generic labels we hide via blacklist
 
+// weeds out junk like "Food" or "Person" before matching
 function isBlacklistedLabel(labelName: string | null | undefined): boolean {
   if (!labelName) return false;
   const normalized = normalizeLabelName(labelName);
   return LABEL_BLACKLIST.has(normalized);
 }
 
+// finds best-fit profile for a Rekognition label from our keyword list
 function resolveIngredient(labelName: string): IngredientProfile | null {
   const normalized = normalizeLabelName(labelName);
   return (
@@ -73,8 +76,9 @@ function resolveIngredient(labelName: string): IngredientProfile | null {
   );
 }
 
+// turns ingredient names into a readable meal description
 function describeMeal(names: string[]) {
-  if (!names.length) return "Meal analysis";
+  if (!names.length) return "Meal analysis"; // fallback description when no resolved ingredients
   const maxNames = 4;
   if (names.length > maxNames) {
     const trimmed = names.slice(0, maxNames);
@@ -87,11 +91,11 @@ function describeMeal(names: string[]) {
   const trailing = names[names.length - 1];
   return `${leading}, and ${trailing}`;
 }
-
+// talks to AWS Rekognition (plus optional custom model) and returns sorted labels
 async function detectLabelsWithRekognition(imageBytes: Buffer): Promise<DetectedLabel[]> {
-  const region = process.env.AWS_REGION;
-  const accessKey = process.env.AWS_ACCESS_KEY_ID;
-  const secretKey = process.env.AWS_SECRET_ACCESS_KEY;
+  const region = process.env.MY_AWS_REGION;
+  const accessKey = process.env.MY_AWS_ACCESS_KEY_ID;
+  const secretKey = process.env.MY_AWS_SECRET_ACCESS_KEY;
 
   if (!region || !accessKey || !secretKey) {
     return [];
@@ -123,7 +127,7 @@ async function detectLabelsWithRekognition(imageBytes: Buffer): Promise<Detected
         confidence: Number(label.Confidence ?? 0),
       })) ?? [];
 
-    const modelArn = process.env.AWS_REKOGNITION_CUSTOM_MODEL_ARN;
+    const modelArn = process.env.MY_AWS_REKOGNITION_CUSTOM_MODEL_ARN; // group-made fine-tuned Rekognition model for better food accuracy
     if (!modelArn) {
       return baseLabels;
     }
@@ -143,7 +147,7 @@ async function detectLabelsWithRekognition(imageBytes: Buffer): Promise<Detected
           confidence: Number(label.Confidence ?? 0),
         })) ?? [];
 
-      const all = [...baseLabels];
+      const all = [...baseLabels]; // merge base labels with custom labels without duplicates
       for (const custom of customLabels) {
         const existing = all.find((label) => normalizeLabelName(label.name) === normalizeLabelName(custom.name));
         if (existing) {
@@ -164,12 +168,13 @@ async function detectLabelsWithRekognition(imageBytes: Buffer): Promise<Detected
   }
 }
 
+// Main function: find labels then summarize
 export async function analyzeMealImage(imageBytes: Buffer): Promise<MealAnalysisResult> {
   let labels = await detectLabelsWithRekognition(imageBytes);
   labels = labels.filter((label) => !isBlacklistedLabel(label.name));
 
   if (!labels.length) {
-    const fallback = FALLBACK_LABEL_SETS[Math.floor(Math.random() * FALLBACK_LABEL_SETS.length)];
+    const fallback = FALLBACK_LABEL_SETS[Math.floor(Math.random() * FALLBACK_LABEL_SETS.length)]; // somewhat realistic label bundle as fallback
     labels = fallback.map((item) => ({
       name: item.name,
       confidence: Math.max(50, item.confidence - Math.random() * 10),
@@ -189,11 +194,13 @@ export async function analyzeMealImage(imageBytes: Buffer): Promise<MealAnalysis
   return summarizeMeal(labels);
 }
 
+// storage-friendly S3 key for user uploads
 export function generateStoragePath(userId: string) {
   const safeId = userId.replace(/[^a-zA-Z0-9-_]/g, "");
   return `user-${safeId}/${Date.now()}-${randomUUID()}.jpg`;
 }
 
+// merges labels + optional overrides into a normalized macro + health summary
 export function summarizeMeal(
   labels: DetectedLabel[],
   existingBreakdown?: IngredientBreakdown[] | null,
@@ -236,7 +243,7 @@ export function summarizeMeal(
     { calories: 0, carbs: 0, protein: 0, fats: 0 },
   );
 
-  const distinctNames = Array.from(new Set(breakdown.map((entry) => entry.name)));
+  const distinctNames = Array.from(new Set(breakdown.map((entry) => entry.name))); // remove duplicates for cleaner descriptions
   const healthScore =
     breakdown.reduce((acc, entry) => {
       const profile = resolveIngredient(entry.name) ?? DEFAULT_PROFILE;
